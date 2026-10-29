@@ -8,7 +8,7 @@ what you shot.
 
 > Built for [#OpenSourceHiggsfield](https://comfy.org/open-source-higgsfield) · 100% open weights · LTX-2.3 · ComfyUI custom node pack · Comfy SDK app · MIT
 
-**▶ Demo video (1:56):** [docs/platelock_demo.mp4](docs/platelock_demo.mp4) · **Live gallery:** https://tushartechs.github.io/platelock/
+**▶ Demo video (1:58):** [docs/platelock_demo.mp4](docs/platelock_demo.mp4) · **Live gallery:** https://tushartechs.github.io/platelock/
 
 ![PlateLock X-ray](docs/examples/mothership/xray.jpg)
 

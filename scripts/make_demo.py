@@ -50,7 +50,7 @@ def tts(text, out, voice="af_heart", speed=1.05):
 
 # ------------------------------------------------------------------ overlays
 def overlay_png(path, caption=None, labels=(), title=None, sub=None, big=None, stats=None, bg=None,
-                logo=None, lockup=None, bug=True):
+                logo=None, lockup=None, bug=True, url=None):
     """Full-frame RGBA overlay. labels: [(x, y, text, color)]"""
     img = Image.new("RGBA", (W, H), (10, 10, 15, 255) if bg else (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
@@ -74,6 +74,16 @@ def overlay_png(path, caption=None, labels=(), title=None, sub=None, big=None, s
         for i, line in enumerate(sub.split("\n")):
             tw = d.textlength(line, font=f)
             d.text(((W - tw) / 2, (640 if lockup else 480) + i * 84), line, font=f, fill=GOLD)
+    if url:
+        f = font(F_MONO, 46)
+        tw = d.textlength(url, font=f)
+        y = 850
+        d.rounded_rectangle([(W - tw) / 2 - 30, y - 14, (W + tw) / 2 + 30, y + 66], 16,
+                            fill=(19, 19, 27, 255), outline=(255, 201, 64, 120), width=2)
+        d.text(((W - tw) / 2, y), url, font=f, fill=WHITE)
+        f2 = font(F_BOLD, 32)
+        foot = "MIT  ·  100% open weights  ·  #OpenSourceHiggsfield"
+        d.text(((W - d.textlength(foot, font=f2)) / 2, y + 110), foot, font=f2, fill=MUTED)
     if big:
         for i, (txt, col, size) in enumerate(big):
             f = font(F_BLACK, size)
@@ -286,8 +296,9 @@ def build(screen=None):
 
     # 9. close
     segs.append(dict(
-        text="PlateLock. Add the VFX. Keep the shot.",
-        kind="card", ov=dict(bg=True, lockup=True, sub="Add the VFX. Keep the shot.\n#OpenSourceHiggsfield")))
+        text="PlateLock. Add the VFX. Keep the shot. Open source, on GitHub.",
+        kind="card", ov=dict(bg=True, lockup=True, sub="Add the VFX. Keep the shot.",
+                             url="github.com/TusharTechs/platelock")))
 
     parts, starts, durs, total = [], [], [], 0.0
     for i, s in enumerate(segs):
