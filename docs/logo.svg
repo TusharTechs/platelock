@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFD866"/>
+      <stop offset="0.55" stop-color="#FFB13D"/>
+      <stop offset="1" stop-color="#FF7A45"/>
+    </linearGradient>
+    <linearGradient id="spark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FF9BC0"/>
+      <stop offset="1" stop-color="#FF3D7F"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- shackle -->
+  <path d="M166 236 V170 a90 90 0 0 1 180 0 V236" fill="none" stroke="url(#gold)" stroke-width="44" stroke-linecap="round"/>
+
+  <!-- body = the plate (a film frame) -->
+  <rect x="96" y="214" width="320" height="236" rx="44" fill="url(#gold)"/>
+
+  <!-- viewfinder corner marks -->
+  <g fill="none" stroke="#14121c" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M140 286 V258 H170"/>
+    <path d="M342 258 H372 V286"/>
+    <path d="M372 378 V406 H342"/>
+    <path d="M170 406 H140 V378"/>
+  </g>
+
+  <!-- keyhole -->
+  <circle cx="256" cy="314" r="28" fill="#14121c"/>
+  <path d="M243 330 L234 374 H278 L269 330 Z" fill="#14121c"/>
+
+  <!-- the effect: one spark breaking out of the locked frame -->
+  <g filter="url(#glow)">
+    <path d="M404 92 C410 136 420 146 464 152 C420 158 410 168 404 212 C398 168 388 158 344 152 C388 146 398 136 404 92 Z" fill="url(#spark)"/>
+    <path d="M452 216 C454 230 458 234 472 236 C458 238 454 242 452 256 C450 242 446 238 432 236 C446 234 450 230 452 216 Z" fill="#FF9BC0"/>
+  </g>
+</svg>

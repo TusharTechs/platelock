@@ -1,4 +1,6 @@
-# 🔒 PlateLock — Add the VFX. Keep the shot.
+<p align="center"><img src="brand/logo-lockup.png" alt="PlateLock" width="640"></p>
+
+<h3 align="center">Add the VFX. Keep the shot.</h3>
 
 **Open-source generative VFX for ComfyUI.** LTX-2.3 invents the effect; PlateLock composites it onto your
 original footage like a VFX artist would — so every pixel the effect doesn't need stays **bit-identical** to

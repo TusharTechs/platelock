@@ -49,7 +49,8 @@ def tts(text, out, voice="af_heart", speed=1.05):
 
 
 # ------------------------------------------------------------------ overlays
-def overlay_png(path, caption=None, labels=(), title=None, sub=None, big=None, stats=None, bg=None):
+def overlay_png(path, caption=None, labels=(), title=None, sub=None, big=None, stats=None, bg=None,
+                logo=None, lockup=None, bug=True):
     """Full-frame RGBA overlay. labels: [(x, y, text, color)]"""
     img = Image.new("RGBA", (W, H), (10, 10, 15, 255) if bg else (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
@@ -57,6 +58,13 @@ def overlay_png(path, caption=None, labels=(), title=None, sub=None, big=None, s
         for y in range(H):  # subtle vertical gradient
             c = int(10 + 14 * (1 - y / H))
             d.line([(0, y), (W, y)], fill=(c, c - 2, c + 8, 255))
+    if lockup:
+        lk = Image.open(ROOT / "brand" / "logo-lockup.png").convert("RGBA")
+        lk = lk.resize((1120, int(lk.height * 1120 / lk.width)), Image.LANCZOS)
+        img.alpha_composite(lk, ((W - lk.width) // 2, 250))
+    if logo:
+        mk = Image.open(ROOT / "brand" / "logo-mark-512.png").convert("RGBA").resize((170, 170), Image.LANCZOS)
+        img.alpha_composite(mk, ((W - 170) // 2, 130))
     if title:
         f = font(F_BLACK, 104)
         tw = d.textlength(title, font=f)
@@ -65,7 +73,7 @@ def overlay_png(path, caption=None, labels=(), title=None, sub=None, big=None, s
         f = font(F_BOLD, 64)
         for i, line in enumerate(sub.split("\n")):
             tw = d.textlength(line, font=f)
-            d.text(((W - tw) / 2, 480 + i * 84), line, font=f, fill=GOLD)
+            d.text(((W - tw) / 2, (640 if lockup else 480) + i * 84), line, font=f, fill=GOLD)
     if big:
         for i, (txt, col, size) in enumerate(big):
             f = font(F_BLACK, size)
@@ -78,9 +86,13 @@ def overlay_png(path, caption=None, labels=(), title=None, sub=None, big=None, s
         for i, (num, col, lbl) in enumerate(stats):
             x = x0 + i * (cw + 40)
             d.rounded_rectangle([x, 330, x + cw, 760], 28, fill=(19, 19, 27, 255), outline=(42, 42, 58, 255), width=2)
-            f = font(F_BLACK, 116)
+            size = 116
+            f = font(F_BLACK, size)
+            while d.textlength(num, font=f) > cw - 60 and size > 40:
+                size -= 4
+                f = font(F_BLACK, size)
             tw = d.textlength(num, font=f)
-            d.text((x + (cw - tw) / 2, 400), num, font=f, fill=col)
+            d.text((x + (cw - tw) / 2, 400 + (116 - size) * 0.6), num, font=f, fill=col)
             f2 = font(F_BOLD, 34)
             for j, line in enumerate(lbl.split("\n")):
                 tw = d.textlength(line, font=f2)
@@ -99,8 +111,9 @@ def overlay_png(path, caption=None, labels=(), title=None, sub=None, big=None, s
             tw = d.textlength(line, font=f)
             d.text(((W - tw) / 2, H - bh - 20 + i * 60), line, font=f, fill=WHITE)
     # brand bug
-    f = font(F_BOLD, 30)
-    d.text((W - 220, 30), "PlateLock", font=f, fill=GOLD + (230,))
+    if bug and not lockup:
+        mk = Image.open(ROOT / "brand" / "logo-mark-512.png").convert("RGBA").resize((54, 54), Image.LANCZOS)
+        img.alpha_composite(mk, (W - 84, 26))
     img.save(path)
 
 
@@ -227,7 +240,7 @@ def build(screen=None):
     segs.append(dict(
         text="Eleven open-source ComfyUI nodes, running inside a single LTX workflow.",
         kind="card",
-        ov=dict(bg=True, title="comfyui-platelock",
+        ov=dict(bg=True, logo=True, title="comfyui-platelock",
                 sub="Prep · Difference Matte · Temporal Stabilize · Composite\nExtract Element · Fidelity Report · X-Ray · Share")))
 
     # 5. proof
@@ -249,7 +262,7 @@ def build(screen=None):
                          ov=dict(caption="The PlateLock app · built on the Comfy SDK")))
     else:
         segs.append(dict(text=app_text, kind="pan", image=str(ROOT / ".runtime" / "app_full.png"),
-                         y0=0, y1=2100, ov=dict(caption="The PlateLock app · built on the Comfy SDK")))
+                         y0=0, y1=2100, ov=dict(caption="The PlateLock app · built on the Comfy SDK", bug=False)))
 
     # 7. outputs: element + share
     s7 = "energy-orb" if "energy-orb" in m else hero[0]
@@ -274,12 +287,14 @@ def build(screen=None):
     # 9. close
     segs.append(dict(
         text="PlateLock. Add the VFX. Keep the shot.",
-        kind="card", ov=dict(bg=True, title="PlateLock", sub="Add the VFX. Keep the shot.\n#OpenSourceHiggsfield")))
+        kind="card", ov=dict(bg=True, lockup=True, sub="Add the VFX. Keep the shot.\n#OpenSourceHiggsfield")))
 
-    parts, total = [], 0.0
+    parts, starts, durs, total = [], [], [], 0.0
     for i, s in enumerate(segs):
         wav = WORK / f"n{i}.wav"
         dur = tts(s["text"], wav) + 0.5
+        starts.append(total)
+        durs.append(dur)
         total += dur
         ovp = WORK / f"o{i}.png"
         overlay_png(ovp, **s["ov"])
@@ -290,22 +305,82 @@ def build(screen=None):
             seg_pan(vid, dur, s["image"], s["y0"], s["y1"], ovp)
         else:
             seg_video(vid, dur, s["inputs"], s["body"], ovp)
-        # mux narration (pad to segment length)
-        seg = WORK / f"s{i}.mp4"
-        run(["ffmpeg", "-v", "error", "-y", "-i", str(vid), "-i", str(wav), "-filter_complex",
-             f"[1:a]apad,atrim=0:{dur:.3f},aresample=48000[a]", "-map", "0:v", "-map", "[a]",
-             "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", str(seg)])
-        parts.append(seg)
+        parts.append(vid)
         print(f"segment {i}: {dur:.1f}s  (total {total:.1f}s)")
     lst = WORK / "list.txt"
     lst.write_text("".join(f"file '{p}'\n" for p in parts))
+    silent = WORK / "video.mp4"
+    run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", str(silent)])
+
+    audio = mix_audio(segs, starts, durs, total)
     final = ROOT / "demo" / "platelock_demo.mp4"
     final.parent.mkdir(exist_ok=True)
-    run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy",
-         "-movflags", "+faststart", str(final)])
+    run(["ffmpeg", "-v", "error", "-y", "-i", str(silent), "-i", str(audio), "-map", "0:v", "-map", "1:a",
+         "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", str(final)])
     print(f"wrote {final}  ({total:.1f}s)")
     if total > 120:
         print("WARNING: over 2 minutes - tighten narration")
+
+
+# ------------------------------------------------------------------ sound design
+SR = 48000
+AUDIO = ROOT / ".runtime" / "audio"   # Mixkit music + SFX (free license), fetched by scripts/fetch_audio.sh
+
+
+def load(path):
+    raw = subprocess.check_output(["ffmpeg", "-v", "error", "-i", str(path), "-ac", "1", "-ar", str(SR),
+                                   "-f", "f32le", "-"])
+    return np.frombuffer(raw, np.float32).copy()
+
+
+def place(track, clip, at, gain=1.0):
+    a = max(0, int(at * SR))
+    clip = clip[max(0, -int(at * SR)):]
+    n = min(len(clip), len(track) - a)
+    if n > 0:
+        track[a:a + n] += clip[:n] * gain
+
+
+def mix_audio(segs, starts, durs, total):
+    """Narration + SFX built sample-accurately; music bed ducked under the voice; -14 LUFS master."""
+    import soundfile as sf
+    n = int(total * SR) + SR
+    voice, sfx = np.zeros(n, np.float32), np.zeros(n, np.float32)
+    for i in range(len(segs)):
+        place(voice, load(WORK / f"n{i}.wav"), starts[i], 2.0)
+    fx = {k: load(AUDIO / f"sfx_{k}.mp3") for k in
+          ["impact_deep", "whoosh_fast", "whoosh_cine_fast", "sparkle", "logo_impact", "safe_lock"]}
+    # opening hit (peak at 0.6s) + a whoosh on each hook wipe (peak 0.7s, wipe crosses mid-frame ~1.6s in)
+    place(sfx, fx["impact_deep"], 0.0, 1.0)
+    for k in range(3):
+        place(sfx, fx["whoosh_fast"], k * 3.6 + 0.9, 1.6)
+    # cinematic whoosh on every cut (peak at 1.05s lands on the cut)
+    for i in range(1, len(segs) - 1):
+        place(sfx, fx["whoosh_cine_fast"], starts[i] - 1.05, 1.4)
+    # sparkle on the proof stats
+    for i, s in enumerate(segs):
+        if s["ov"].get("stats"):
+            place(sfx, fx["sparkle"], starts[i] + 0.2, 1.0)
+    # logo end card: trailer impact rising into the cut (peak 4.6s), then the lock clicks shut
+    last = starts[-1]
+    place(sfx, fx["logo_impact"], last - 4.6, 0.8)
+    place(sfx, fx["safe_lock"], last + 0.05, 3.0)
+    place(sfx, fx["sparkle"], last + 0.35, 1.2)
+    sfx *= 0.22  # effects accent the edit; the voice stays on top
+    sf.write(WORK / "voice.wav", voice, SR)
+    sf.write(WORK / "sfx.wav", sfx, SR)
+
+    music = AUDIO / "music_main.mp3"
+    out = WORK / "mix.wav"
+    fade_out = max(0.0, total - 4)
+    fc = (f"[2:a]aresample={SR},aformat=channel_layouts=mono,volume=0.13,atrim=0:{total:.3f},"
+          f"afade=t=in:d=1.5,afade=t=out:st={fade_out:.2f}:d=4[m];"
+          "[0:a]asplit[v1][v2];"
+          "[m][v1]sidechaincompress=threshold=0.015:ratio=8:attack=15:release=450:makeup=1[md];"
+          "[md][v2][1:a]amix=inputs=3:normalize=0,loudnorm=I=-14:TP=-1.5:LRA=9[a]")
+    run(["ffmpeg", "-v", "error", "-y", "-i", str(WORK / "voice.wav"), "-i", str(WORK / "sfx.wav"),
+         "-i", str(music), "-filter_complex", fc, "-map", "[a]", "-ar", str(SR), "-ac", "2", str(out)])
+    return out
 
 
 if __name__ == "__main__":

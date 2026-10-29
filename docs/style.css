@@ -130,3 +130,6 @@ footer { text-align: center; color: var(--muted); padding: 30px; font-size: 13px
 .cta { margin-top: 22px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 .watch { padding: 11px 18px; border-radius: 12px; font-weight: 800; color: #1a1300; background: linear-gradient(90deg, var(--gold), #ff9c3d); }
 .watch.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); font-weight: 600; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand .mark { width: 30px; height: 30px; }
+.hero-mark { width: 96px; height: 96px; margin-bottom: 10px; filter: drop-shadow(0 10px 30px #ffb13d44); }
