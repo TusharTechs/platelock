@@ -1,5 +1,7 @@
 <p align="center"><img src="brand/logo-lockup.png" alt="PlateLock" width="640"></p>
 
+<p align="center"><a href="https://youtu.be/bzk4tfzofaw"><img src="brand/thumbnail_a.png" alt="Watch the PlateLock demo" width="720"></a></p>
+
 <h3 align="center">Add the VFX. Keep the shot.</h3>
 
 **Open-source generative VFX for ComfyUI.** LTX-2.3 invents the effect; PlateLock composites it onto your
@@ -8,7 +10,7 @@ what you shot.
 
 > Built for [#OpenSourceHiggsfield](https://comfy.org/open-source-higgsfield) · 100% open weights · LTX-2.3 · ComfyUI custom node pack · Comfy SDK app · MIT
 
-**▶ Demo video (1:58):** [docs/platelock_demo.mp4](docs/platelock_demo.mp4) · **Live gallery:** https://tushartechs.github.io/platelock/
+**▶ Demo video (1:58):** [YouTube](https://youtu.be/bzk4tfzofaw) · [mp4](docs/platelock_demo.mp4) · **Live gallery:** https://tushartechs.github.io/platelock/
 
 ![PlateLock X-ray](docs/examples/mothership/xray.jpg)
 
