@@ -149,6 +149,6 @@ generation).
 ## Credits
 
 LTX-2.3 by Lightricks · EditAnything IC-LoRA by Alissonerdx · ComfyUI by Comfy Org · sample footage from
-[Mixkit](https://mixkit.co) (free license; source clips are not redistributed here — `scripts/fetch_footage.sh`).
+[Mixkit](https://mixkit.co) (free license; unmodified source clips are not redistributed here — `scripts/fetch_footage.sh` downloads them) · demo music "Deep Techno Ambience" and sound effects from Mixkit (free license — `scripts/fetch_audio.sh`) · demo narration by Kokoro-82M (open weights) · logo in `brand/`.
 
 MIT © 2026
