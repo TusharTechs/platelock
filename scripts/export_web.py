@@ -40,12 +40,20 @@ def main():
             src = EX / slug / f"{name}.mp4"
             if src.exists():
                 web_encode(src, dst / f"{name}.mp4", 540 if name == "share" else 960)
+                subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(dst / f"{name}.mp4"), "-vf",
+                                "select=eq(n\\,60)", "-frames:v", "1", "-q:v", "4", str(dst / f"{name}.jpg")],
+                               check=True)
                 files[name] = f"{slug}/{name}.mp4"
         if (EX / slug / "poster.jpg").exists():
             shutil.copy(EX / slug / "poster.jpg", dst / "poster.jpg")
         out_items.append({**it, "files": files})
         print("exported", slug)
     (DOCS / "examples" / "manifest.json").write_text(json.dumps(out_items, indent=2))
+    demo = ROOT / "demo" / "platelock_demo.mp4"
+    if demo.exists():
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(demo), "-c:v", "libx264", "-crf", "27",
+                        "-preset", "slow", "-vf", "scale=1280:-2", "-c:a", "aac", "-b:a", "128k",
+                        "-movflags", "+faststart", str(DOCS / "platelock_demo.mp4")], check=True)
     total = sum(f.stat().st_size for f in DOCS.rglob("*") if f.is_file())
     print(f"docs/ = {total / 1e6:.1f} MB")
 
