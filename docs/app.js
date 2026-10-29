@@ -19,7 +19,7 @@ async function boot() {
   } catch {
     state.online = false;
     $("#offline-note").classList.remove("hidden");
-    state.presets = FALLBACK_PRESETS;
+    try { state.presets = await (await fetch("presets.json")).json(); } catch { state.presets = FALLBACK_PRESETS; }
   }
   renderPresets();
   loadGallery();

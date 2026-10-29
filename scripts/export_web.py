@@ -25,6 +25,10 @@ def main():
         shutil.rmtree(DOCS)
     shutil.copytree(ROOT / "app" / "web", DOCS)
     (DOCS / ".nojekyll").write_text("")
+    import sys
+    sys.path.insert(0, str(ROOT / "app"))
+    from presets import PRESETS
+    (DOCS / "presets.json").write_text(json.dumps(PRESETS, indent=2))
     items = json.loads((EX / "manifest.json").read_text())
     out_items = []
     for it in items:
