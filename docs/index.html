@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PlateLock — Add the VFX. Keep the shot.</title>
+  <meta name="description" content="Open-source generative VFX on ComfyUI + LTX-2.3. Effects are composited onto your original footage; every pixel the effect doesn't need stays bit-identical." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔒</text></svg>" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="lock">🔒</span> PlateLock</div>
+    <nav>
+      <a href="#studio">Studio</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#how">How it works</a>
+      <a href="https://github.com/TusharTechs/platelock" id="gh-link" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Add the VFX.<br /><span class="accent">Keep the shot.</span></h1>
+    <p class="sub">Generative video tools repaint your <em>entire</em> frame — faces drift, backgrounds shimmer, 1080p turns to mush.
+      PlateLock lets <b>LTX-2.3</b> invent the effect, then composites it like a VFX artist would:
+      every pixel the effect doesn't need stays <b>bit-identical</b> to your footage.</p>
+    <div class="badges">
+      <span class="badge">100% open weights</span>
+      <span class="badge">LTX-2.3 · ComfyUI</span>
+      <span class="badge">Custom node pack</span>
+      <span class="badge">Nuke / AE / Resolve-ready layers</span>
+    </div>
+    <p class="cta"><a class="watch" href="https://tushartechs.github.io/platelock/platelock_demo.mp4" target="_blank" rel="noopener">▶ Watch the 2-minute demo</a>
+      <a class="watch ghost" href="#gallery">See 10 real results ↓</a></p>
+  </section>
+
+  <main>
+    <!-- ================= STUDIO ================= -->
+    <section id="studio" class="card studio">
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-mode="fx">✨ Add an effect</button>
+        <button class="tab" data-mode="lock">🧲 Lock any generation <small>(bring your own)</small></button>
+      </div>
+
+      <div class="offline-note hidden" id="offline-note">
+        You're viewing the static demo. To generate, <a href="#how">run PlateLock locally</a> against your ComfyUI — the gallery below shows real results.
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-h"><span class="n">1</span> Your shot</div>
+          <label class="drop" id="drop-plate">
+            <input type="file" accept="video/*" id="file-plate" hidden />
+            <video id="prev-plate" muted loop playsinline class="hidden"></video>
+            <div class="drop-msg"><b>Drop a video</b><br />or click to choose · first <span class="maxs">5</span>s are used</div>
+          </label>
+        </div>
+
+        <div class="step mode-fx">
+          <div class="step-h"><span class="n">2</span> Pick an effect</div>
+          <div class="presets" id="presets"></div>
+          <input id="subject" class="text" placeholder="Where? e.g. the open palm" />
+          <div class="prompt-preview" id="prompt-preview"></div>
+        </div>
+
+        <div class="step mode-lock hidden">
+          <div class="step-h"><span class="n">2</span> The generated version</div>
+          <label class="drop" id="drop-gen">
+            <input type="file" accept="video/*" id="file-gen" hidden />
+            <video id="prev-gen" muted loop playsinline class="hidden"></video>
+            <div class="drop-msg"><b>Drop the AI-edited clip</b><br />from any video-to-video model</div>
+          </label>
+        </div>
+
+        <div class="step">
+          <div class="step-h"><span class="n">3</span> Lock it</div>
+          <div class="ctl">
+            <label>Lock tightness <output id="sens-out">0.50</output></label>
+            <input type="range" id="sens" min="0" max="1" step="0.05" value="0.5" />
+            <div class="hint"><span>tight: only big changes</span><span>loose: catch subtle light</span></div>
+          </div>
+          <div class="ctl">
+            <label>Element export</label>
+            <select id="element">
+              <option value="">auto (from effect)</option>
+              <option value="alpha">alpha — comp "over"</option>
+              <option value="emissive">emissive — comp "screen/add"</option>
+            </select>
+          </div>
+          <button class="go" id="go" disabled>🔒 Lock &amp; Generate</button>
+          <div class="status hidden" id="status">
+            <div class="bar"><i id="bar"></i></div>
+            <div class="msg" id="msg"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= RESULT ================= -->
+    <section id="result" class="card result hidden">
+      <div class="result-head">
+        <h2 id="result-title">Result</h2>
+        <div class="seg" id="left-seg">
+          <span>Left</span>
+          <button data-left="original" class="on">Original</button>
+          <button data-left="raw">Raw LTX</button>
+        </div>
+        <div class="seg" id="right-seg">
+          <span>Right</span>
+          <button data-right="comp" class="on">PlateLock</button>
+          <button data-right="xray">X-Ray</button>
+          <button data-right="element">VFX element</button>
+          <button data-right="raw">Raw LTX</button>
+        </div>
+      </div>
+
+      <div class="result-prompt" id="result-prompt"></div>
+      <div class="compare" id="compare">
+        <video id="v-right" muted loop playsinline></video>
+        <video id="v-left" muted loop playsinline></video>
+        <div class="handle" id="handle"><span>⟷</span></div>
+        <div class="tag l" id="tag-l">ORIGINAL</div>
+        <div class="tag r" id="tag-r">PLATELOCK</div>
+      </div>
+      <div class="transport">
+        <button id="play">⏯</button>
+        <button id="zoom" title="Zoom to inspect detail">🔍 1×</button>
+        <span class="tip">Drag the divider. Try <b>Left: Raw LTX</b> vs <b>Right: PlateLock</b> and zoom in.</span>
+      </div>
+
+      <div class="fidelity" id="fidelity"></div>
+
+      <div class="downloads" id="downloads"></div>
+    </section>
+
+    <!-- ================= GALLERY ================= -->
+    <section id="gallery" class="card">
+      <h2>Gallery <small>real LTX-2.3 renders, locked with PlateLock</small></h2>
+      <div class="gallery" id="gallery-grid"><p class="muted">Loading examples…</p></div>
+    </section>
+
+    <!-- ================= HOW ================= -->
+    <section id="how" class="card how">
+      <h2>How it works</h2>
+      <ol class="pipeline">
+        <li><b>Prep</b> — your clip is trimmed to LTX's 8n+1 frames and a model-resolution proxy is made. <i>PlateLock · Prep Plate</i></li>
+        <li><b>Generate</b> — LTX-2.3 EditAnything (open weights) repaints the proxy with your effect.</li>
+        <li><b>Tone-align</b> — a robust per-frame colour fit undoes the model's global drift, so only real changes stand out.</li>
+        <li><b>Difference matte</b> — a noise-adaptive change detector with 3-D (space + time) hysteresis finds exactly what the model added, ignoring VAE shimmer. <i>PlateLock · Difference Matte</i></li>
+        <li><b>Stabilise</b> — temporal median + bidirectional agreement: no flicker, no ghost trails. <i>PlateLock · Temporal Stabilize</i></li>
+        <li><b>Composite</b> — the effect is upscaled, re-grained to your camera's noise and laid over the <b>full-resolution original</b>. Outside the matte, pixels are copied bit-for-bit. <i>PlateLock · Composite onto Plate</i></li>
+        <li><b>Prove it</b> — the Fidelity Report measures how much of your shot survived, vs the raw model. <i>PlateLock · Fidelity Report</i></li>
+        <li><b>Ship it</b> — 9:16 before/after share clip, X-ray matte, and a reusable VFX element (alpha or emissive) for Nuke / After Effects / Resolve.</li>
+      </ol>
+      <pre class="code">git clone https://github.com/TusharTechs/platelock && cd platelock
+# 1. ComfyUI + nodes + LTX-2.3 weights (GPU box, e.g. Runpod L40S 48GB)
+bash scripts/runpod_setup.sh
+# 2. the app (anywhere) — talks to ComfyUI through comfy-sdk
+export COMFY_BASE_URL=http://&lt;gpu-host&gt;:8189
+pip install -r app/requirements.txt && python app/run.py</pre>
+    </section>
+  </main>
+
+  <footer>
+    Built for <a href="https://comfy.org/open-source-higgsfield" target="_blank" rel="noopener">#OpenSourceHiggsfield</a> ·
+    ComfyUI · LTX-2.3 (open weights) · MIT licensed · Sample footage: Mixkit
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

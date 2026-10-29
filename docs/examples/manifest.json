@@ -1,0 +1,262 @@
+[
+  {
+    "slug": "energy-orb",
+    "emoji": "\ud83d\udd2e",
+    "title": "Energy Orb",
+    "subtitle": "Hand at sunset",
+    "prompt": "Add a glowing golden orb of swirling energy with crackling sparks, floating just above the open palm.",
+    "seed": 42,
+    "sensitivity": 0.55,
+    "seconds": 7.3,
+    "files": {
+      "comp": "energy-orb/comp.mp4",
+      "raw": "energy-orb/raw.mp4",
+      "xray": "energy-orb/xray.mp4",
+      "element": "energy-orb/element.mp4",
+      "share": "energy-orb/share.mp4"
+    },
+    "report": {
+      "frames": 97,
+      "resolution": "1280x720",
+      "untouched_pct": 89.21,
+      "bit_identical_pct": 89.21,
+      "raw_model_psnr_outside_effect_db": 35.64,
+      "platelock_psnr_outside_effect_db": "inf"
+    },
+    "source": "Mixkit clip #46762"
+  },
+  {
+    "slug": "code-on-fire",
+    "emoji": "\ud83d\udd25",
+    "title": "My Code Is On Fire",
+    "subtitle": "Typing on a laptop",
+    "prompt": "Add roaring orange flames with drifting embers, burning on the laptop keyboard.",
+    "seed": 42,
+    "sensitivity": 0.55,
+    "seconds": 133.6,
+    "files": {
+      "comp": "code-on-fire/comp.mp4",
+      "raw": "code-on-fire/raw.mp4",
+      "xray": "code-on-fire/xray.mp4",
+      "element": "code-on-fire/element.mp4",
+      "share": "code-on-fire/share.mp4"
+    },
+    "report": {
+      "frames": 97,
+      "resolution": "1920x1080",
+      "untouched_pct": 91.98,
+      "bit_identical_pct": 91.98,
+      "raw_model_psnr_outside_effect_db": 33.31,
+      "platelock_psnr_outside_effect_db": "inf"
+    },
+    "source": "Mixkit clip #1781"
+  },
+  {
+    "slug": "pocket-dragon",
+    "emoji": "\ud83d\udc09",
+    "title": "Pocket Dragon",
+    "subtitle": "Scrolling a phone",
+    "prompt": "Add a small green dragon with spread wings, standing on top of the phone.",
+    "seed": 7,
+    "sensitivity": 0.5,
+    "seconds": 124.7,
+    "files": {
+      "comp": "pocket-dragon/comp.mp4",
+      "raw": "pocket-dragon/raw.mp4",
+      "xray": "pocket-dragon/xray.mp4",
+      "element": "pocket-dragon/element.mp4",
+      "share": "pocket-dragon/share.mp4"
+    },
+    "report": {
+      "frames": 97,
+      "resolution": "1920x1080",
+      "untouched_pct": 95.78,
+      "bit_identical_pct": 95.78,
+      "raw_model_psnr_outside_effect_db": 39.24,
+      "platelock_psnr_outside_effect_db": "inf"
+    },
+    "source": "Mixkit clip #4915"
+  },
+  {
+    "slug": "mothership",
+    "emoji": "\ud83d\udef8",
+    "title": "Mothership",
+    "subtitle": "City aerial",
+    "prompt": "Add a colossal dark alien mothership with glowing blue lights, hovering in the sky above the city skyline.",
+    "seed": 42,
+    "sensitivity": 0.45,
+    "seconds": 137.7,
+    "files": {
+      "comp": "mothership/comp.mp4",
+      "raw": "mothership/raw.mp4",
+      "xray": "mothership/xray.mp4",
+      "element": "mothership/element.mp4",
+      "share": "mothership/share.mp4"
+    },
+    "report": {
+      "frames": 97,
+      "resolution": "1920x1080",
+      "untouched_pct": 93.6,
+      "bit_identical_pct": 93.6,
+      "raw_model_psnr_outside_effect_db": 25.83,
+      "platelock_psnr_outside_effect_db": "inf"
+    },
+    "source": "Mixkit clip #49806"
+  },
+  {
+    "slug": "meteor",
+    "emoji": "\u2604\ufe0f",
+    "title": "Meteor Strike",
+    "subtitle": "Country road",
+    "prompt": "Add a flaming meteor with a bright fiery trail and smoke, crashing onto the road in the distance.",
+    "seed": 42,
+    "sensitivity": 0.5,
+    "seconds": 144.8,
+    "files": {
+      "comp": "meteor/comp.mp4",
+      "raw": "meteor/raw.mp4",
+      "xray": "meteor/xray.mp4",
+      "element": "meteor/element.mp4",
+      "share": "meteor/share.mp4"
+    },
+    "report": {
+      "frames": 97,
+      "resolution": "1920x1080",
+      "untouched_pct": 96.11,
+      "bit_identical_pct": 96.11,
+      "raw_model_psnr_outside_effect_db": 23.75,
+      "platelock_psnr_outside_effect_db": "inf"
+    },
+    "source": "Mixkit clip #4852"
+  },
+  {
+    "slug": "portal",
+    "emoji": "\ud83c\udf00",
+    "title": "Sky Portal",
+    "subtitle": "Looking up at skyscrapers",
+    "prompt": "Add a swirling glowing blue portal with violet sparks at its edge, opening in the sky between the buildings.",
+    "seed": 42,
+    "sensitivity": 0.5,
+    "seconds": 141.3,
+    "files": {
+      "comp": "portal/comp.mp4",
+      "raw": "portal/raw.mp4",
+      "xray": "portal/xray.mp4",
+      "element": "portal/element.mp4",
+      "share": "portal/share.mp4"
+    },
+    "report": {
+      "frames": 97,
+      "resolution": "1920x1080",
+      "untouched_pct": 86.25,
+      "bit_identical_pct": 86.26,
+      "raw_model_psnr_outside_effect_db": 24.82,
+      "platelock_psnr_outside_effect_db": "inf"
+    },
+    "source": "Mixkit clip #4170"
+  },
+  {
+    "slug": "sea-serpent",
+    "emoji": "\ud83c\udf0a",
+    "title": "Sea Serpent",
+    "subtitle": "Mountain lake",
+    "prompt": "Add a giant green sea monster head with a long neck, rising from the lake in the center.",
+    "seed": 7,
+    "sensitivity": 0.45,
+    "seconds": 126.7,
+    "files": {
+      "comp": "sea-serpent/comp.mp4",
+      "raw": "sea-serpent/raw.mp4",
+      "xray": "sea-serpent/xray.mp4",
+      "element": "sea-serpent/element.mp4",
+      "share": "sea-serpent/share.mp4"
+    },
+    "report": {
+      "frames": 97,
+      "resolution": "1920x1080",
+      "untouched_pct": 95.21,
+      "bit_identical_pct": 95.21,
+      "raw_model_psnr_outside_effect_db": 30.92,
+      "platelock_psnr_outside_effect_db": "inf"
+    },
+    "source": "Mixkit clip #1218"
+  },
+  {
+    "slug": "fireflies",
+    "emoji": "\ud83e\udd8c",
+    "title": "Spirit Deer",
+    "subtitle": "Pine forest",
+    "prompt": "Add a glowing blue spirit deer with shining antlers, standing on the forest path in the center.",
+    "seed": 7,
+    "sensitivity": 0.55,
+    "seconds": 131.2,
+    "files": {
+      "comp": "fireflies/comp.mp4",
+      "raw": "fireflies/raw.mp4",
+      "xray": "fireflies/xray.mp4",
+      "element": "fireflies/element.mp4",
+      "share": "fireflies/share.mp4"
+    },
+    "report": {
+      "frames": 97,
+      "resolution": "1920x1080",
+      "untouched_pct": 93.43,
+      "bit_identical_pct": 93.43,
+      "raw_model_psnr_outside_effect_db": 25.25,
+      "platelock_psnr_outside_effect_db": "inf"
+    },
+    "source": "Mixkit clip #50847"
+  },
+  {
+    "slug": "lightning-road",
+    "emoji": "\ud83d\udca5",
+    "title": "Road Explosion",
+    "subtitle": "Car on a highway",
+    "prompt": "Add a huge orange fireball explosion with smoke, on the road behind the car.",
+    "seed": 7,
+    "sensitivity": 0.5,
+    "seconds": 129.6,
+    "files": {
+      "comp": "lightning-road/comp.mp4",
+      "raw": "lightning-road/raw.mp4",
+      "xray": "lightning-road/xray.mp4",
+      "element": "lightning-road/element.mp4",
+      "share": "lightning-road/share.mp4"
+    },
+    "report": {
+      "frames": 97,
+      "resolution": "1920x1080",
+      "untouched_pct": 90.07,
+      "bit_identical_pct": 90.07,
+      "raw_model_psnr_outside_effect_db": 36.62,
+      "platelock_psnr_outside_effect_db": "inf"
+    },
+    "source": "Mixkit clip #52427"
+  },
+  {
+    "slug": "hologram",
+    "emoji": "\ud83e\ude90",
+    "title": "Desk Hologram",
+    "subtitle": "Studying at a desk",
+    "prompt": "Add a small glowing blue hologram of a rotating planet, floating above the open book.",
+    "seed": 42,
+    "sensitivity": 0.55,
+    "seconds": 141.6,
+    "files": {
+      "comp": "hologram/comp.mp4",
+      "raw": "hologram/raw.mp4",
+      "xray": "hologram/xray.mp4",
+      "element": "hologram/element.mp4",
+      "share": "hologram/share.mp4"
+    },
+    "report": {
+      "frames": 97,
+      "resolution": "1920x1080",
+      "untouched_pct": 91.47,
+      "bit_identical_pct": 91.47,
+      "raw_model_psnr_outside_effect_db": 32.64,
+      "platelock_psnr_outside_effect_db": "inf"
+    },
+    "source": "Mixkit clip #50111"
+  }
+]

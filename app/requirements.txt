@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+python-multipart
+comfy-sdk>=0.5.0
+torch
+numpy

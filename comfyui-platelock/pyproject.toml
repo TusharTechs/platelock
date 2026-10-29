@@ -1,0 +1,14 @@
+[project]
+name = "comfyui-platelock"
+description = "Plate-preserving compositing for generative video edits: difference matte, temporal stabilisation, bit-exact composite onto the original footage, VFX element export and fidelity report."
+version = "1.0.0"
+license = { file = "LICENSE" }
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/TusharTechs/platelock"
+
+[tool.comfy]
+PublisherId = "tushartechs"
+DisplayName = "PlateLock"
+Icon = ""

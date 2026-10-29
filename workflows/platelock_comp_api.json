@@ -1,0 +1,342 @@
+{
+  "1": {
+    "class_type": "LoadVideo",
+    "inputs": {
+      "file": "plate.mp4"
+    },
+    "_meta": {
+      "title": "Plate (original footage)"
+    }
+  },
+  "2": {
+    "class_type": "GetVideoComponents",
+    "inputs": {
+      "video": [
+        "1",
+        0
+      ]
+    }
+  },
+  "3": {
+    "class_type": "LoadVideo",
+    "inputs": {
+      "file": "generated.mp4"
+    },
+    "_meta": {
+      "title": "Generated (model output)"
+    }
+  },
+  "4": {
+    "class_type": "GetVideoComponents",
+    "inputs": {
+      "video": [
+        "3",
+        0
+      ]
+    }
+  },
+  "5": {
+    "class_type": "PlateLockDifferenceMatte",
+    "inputs": {
+      "plate": [
+        "2",
+        0
+      ],
+      "generated": [
+        "4",
+        0
+      ],
+      "sensitivity": 0.5,
+      "chroma_weight": 2.0,
+      "detail_sigma": 1.5,
+      "hysteresis": true
+    },
+    "_meta": {
+      "title": "Difference Matte"
+    }
+  },
+  "6": {
+    "class_type": "PlateLockTemporalStabilize",
+    "inputs": {
+      "matte": [
+        "5",
+        0
+      ],
+      "window": 5,
+      "smoothing": 0.6
+    },
+    "_meta": {
+      "title": "Temporal Stabilize"
+    }
+  },
+  "7": {
+    "class_type": "PlateLockRefineMatte",
+    "inputs": {
+      "matte": [
+        "6",
+        0
+      ],
+      "open_px": 1,
+      "close_px": 3,
+      "grow_px": 4,
+      "feather_px": 4.0
+    },
+    "_meta": {
+      "title": "Refine Matte"
+    }
+  },
+  "8": {
+    "class_type": "PlateLockComposite",
+    "inputs": {
+      "plate": [
+        "2",
+        0
+      ],
+      "generated": [
+        "5",
+        1
+      ],
+      "matte": [
+        "7",
+        0
+      ],
+      "grain_match": 1.0,
+      "seed": 0
+    },
+    "_meta": {
+      "title": "Composite onto Plate"
+    }
+  },
+  "9": {
+    "class_type": "PlateLockFidelityReport",
+    "inputs": {
+      "plate": [
+        "2",
+        0
+      ],
+      "generated": [
+        "4",
+        0
+      ],
+      "comp": [
+        "8",
+        0
+      ],
+      "matte_full": [
+        "8",
+        1
+      ]
+    },
+    "_meta": {
+      "title": "Fidelity Report"
+    }
+  },
+  "10": {
+    "class_type": "PlateLockMatteOverlay",
+    "inputs": {
+      "image": [
+        "2",
+        0
+      ],
+      "matte": [
+        "8",
+        1
+      ],
+      "opacity": 0.55
+    },
+    "_meta": {
+      "title": "X-Ray"
+    }
+  },
+  "11": {
+    "class_type": "PlateLockExtractElement",
+    "inputs": {
+      "plate": [
+        "2",
+        0
+      ],
+      "generated": [
+        "5",
+        1
+      ],
+      "matte": [
+        "7",
+        0
+      ],
+      "mode": "emissive"
+    },
+    "_meta": {
+      "title": "Extract Element"
+    }
+  },
+  "12": {
+    "class_type": "PlateLockBeforeAfter",
+    "inputs": {
+      "before": [
+        "2",
+        0
+      ],
+      "after": [
+        "8",
+        0
+      ],
+      "style": "wipe",
+      "aspect": "9:16"
+    },
+    "_meta": {
+      "title": "Before/After Share"
+    }
+  },
+  "13": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "images": [
+        "8",
+        0
+      ],
+      "fps": [
+        "2",
+        2
+      ],
+      "audio": [
+        "2",
+        1
+      ]
+    }
+  },
+  "14": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "video": [
+        "13",
+        0
+      ],
+      "filename_prefix": "platelock/comp",
+      "format": "auto",
+      "format.codec": "auto"
+    },
+    "_meta": {
+      "title": "Save comp"
+    }
+  },
+  "15": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "images": [
+        "4",
+        0
+      ],
+      "fps": [
+        "2",
+        2
+      ],
+      "audio": [
+        "2",
+        1
+      ]
+    }
+  },
+  "16": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "video": [
+        "15",
+        0
+      ],
+      "filename_prefix": "platelock/raw",
+      "format": "auto",
+      "format.codec": "auto"
+    },
+    "_meta": {
+      "title": "Save raw"
+    }
+  },
+  "17": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "images": [
+        "10",
+        0
+      ],
+      "fps": [
+        "2",
+        2
+      ]
+    }
+  },
+  "18": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "video": [
+        "17",
+        0
+      ],
+      "filename_prefix": "platelock/xray",
+      "format": "auto",
+      "format.codec": "auto"
+    },
+    "_meta": {
+      "title": "Save xray"
+    }
+  },
+  "19": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "images": [
+        "11",
+        0
+      ],
+      "fps": [
+        "2",
+        2
+      ]
+    }
+  },
+  "20": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "video": [
+        "19",
+        0
+      ],
+      "filename_prefix": "platelock/element",
+      "format": "auto",
+      "format.codec": "auto"
+    },
+    "_meta": {
+      "title": "Save element"
+    }
+  },
+  "21": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "images": [
+        "12",
+        0
+      ],
+      "fps": [
+        "2",
+        2
+      ],
+      "audio": [
+        "2",
+        1
+      ]
+    }
+  },
+  "22": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "video": [
+        "21",
+        0
+      ],
+      "filename_prefix": "platelock/share",
+      "format": "auto",
+      "format.codec": "auto"
+    },
+    "_meta": {
+      "title": "Save share"
+    }
+  }
+}

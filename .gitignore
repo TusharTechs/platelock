@@ -1,0 +1,11 @@
+__pycache__/
+.DS_Store
+.env
+.runtime/
+.venv/
+*.pyc
+app/data/
+/demo/
+/examples/
+/research/
+research/downloads/
